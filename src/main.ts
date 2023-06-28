@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
