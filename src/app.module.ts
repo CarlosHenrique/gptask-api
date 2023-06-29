@@ -5,7 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GqlConfigService } from './config/graphql.config';
+import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,6 +21,7 @@ import { UserModule } from './user/user.module';
       useClass: MongooseAsyncConfig,
     }),
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

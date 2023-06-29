@@ -17,4 +17,15 @@ export class UserService {
     });
     return users;
   }
+
+  public async findOneByEmail(email: string): Promise<User> {
+    const found = await this.userModel.findOne({ email });
+
+    return found;
+  }
+
+  public async createUser(data: UserInput): Promise<User> {
+    const found = await this.userModel.create(data);
+    return found.toObject<User>();
+  }
 }
