@@ -11,7 +11,7 @@ import { UserModule } from 'src/user/user.module';
     PassportModule,
     UserModule,
     JwtModule.register({
-      secret: 'hide-me', //.env secret on future
+      secret: 'secret', //.env secret on future
       signOptions: { expiresIn: '1h' },
     }),
   ],

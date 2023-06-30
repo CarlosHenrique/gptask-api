@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { LoginResponse, LoginUserInput } from './entities/auth.entity';
-import { User } from 'src/user/entities/user.entity';
+import { LoginUserInput } from './entities/auth.entity';
 
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
   constructor(
@@ -14,7 +14,10 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findOneByEmail(email);
-    if (user && user.password === password) {
+    console.log(user);
+    const valid = await bcrypt.compare(password, user?.password);
+
+    if (user && valid) {
       const { password, ...rest } = user;
       return rest;
     }

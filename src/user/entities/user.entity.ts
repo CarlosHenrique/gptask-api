@@ -14,7 +14,7 @@ export class User {
 }
 
 @InputType()
-export class UserInput {
+export class CreateUserInput {
   @Field()
   email!: string;
 
