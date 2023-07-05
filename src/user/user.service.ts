@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User, UserDocument, UserInput } from './entities/user.entity';
+import { User, UserDocument, CreateUserInput } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -16,5 +16,17 @@ export class UserService {
       return user.toObject<User>();
     });
     return users;
+  }
+
+  public async findOneByEmail(email: string): Promise<User> {
+    const found = await this.userModel.findOne({ email });
+
+    return found;
+  }
+
+  public async createUser(data: CreateUserInput): Promise<User> {
+    console.log(data);
+    const found = await this.userModel.create(data);
+    return found.toObject<User>();
   }
 }

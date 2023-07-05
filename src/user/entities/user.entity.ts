@@ -9,18 +9,17 @@ export class User {
   @Prop({ required: true })
   email!: string;
 
-  @Field()
   @Prop({ required: true })
-  psw!: string;
+  password!: string;
 }
 
 @InputType()
-export class UserInput {
+export class CreateUserInput {
   @Field()
   email!: string;
 
   @Field()
-  psw!: string;
+  password!: string;
 }
 
 export type UserDocument = HydratedDocument<User>;
