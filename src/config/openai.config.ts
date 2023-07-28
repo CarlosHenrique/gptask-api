@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { OpenAIApi, Configuration } from 'openai';
 
 const configuration = new Configuration({
