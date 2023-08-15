@@ -20,53 +20,62 @@ export class BoardQuestionInput {
 
   @Field()
   description!: string;
+
+  @Field()
+  owner!: string;
 }
 
 export const mockCompletion = {
   role: 'assistant',
   content:
-    'Claro! Segue abaixo o código que irá gerar um array com os cards para o projeto "JS ASSINCRONO":\n' +
+    'Aqui está um exemplo de bloco de código que contém os cards gerados para o projeto GPTask:\n' +
     '\n' +
-    '```javascript\n' +
+    '```\n' +
     'const cards = [\n' +
     '  {\n' +
-    '    "titulo": "Aprender sobre Promises",\n' +
-    `    "descricao": "Estudar o conceito de Promises no JavaScript. Pode-se utilizar o artigo 'Understanding Promises in JavaScript' como referência: https://scotch.io/tutorials/javascript-promises-for-dummies",\n` +
-    '    "story_points": 2,\n' +
-    '    "criterio_aceitacao": "Ser capaz de criar e utilizar Promises para realizar tarefas assíncronas",\n' +
-    '    "due_date": new Date().toLocaleDateString(),\n' +
+    '    "title": "Integração com ChatGPT",\n' +
+    `    "description": "Realizar a integração do aplicativo web com o ChatGPT para que a IA possa gerar as tasks. O vídeo 'Integrating ChatGPT with a Web Application' disponível em: https://www.youtube.com/watch?v=1234567890 pode ser utilizado como orientação.",\n` +
+    '    "storyPoints": 5,\n' +
+    '    "acceptanceCriteria": "Ter o aplicativo web conectado ao ChatGPT e ser capaz de receber as tasks geradas pela IA",\n' +
+    '    "dueDate": "03/08/2023",\n' +
     '    "label": "backlog"\n' +
     '  },\n' +
     '  {\n' +
-    '    "titulo": "Aprender sobre Callbacks",\n' +
-    `    "descricao": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",\n` +
-    '    "story_points": 1,\n' +
-    '    "criterio_aceitacao": "Entender como utilizar callbacks para realizar operações assíncronas",\n' +
-    '    "due_date": new Date().toLocaleDateString(),\n' +
+    '    "title": "Criação de Boards",\n' +
+    `    "description": "Implementar a funcionalidade de criação de boards no aplicativo web, permitindo que os usuários criem novos projetos Scrum. A documentação 'Creating Boards in GPTask' disponível em: https://gptaskdocs.com/creating-boards pode ser consultada para entender os requisitos e detalhes necessários.",\n` +
+    '    "storyPoints": 8,\n' +
+    '    "acceptanceCriteria": "Usuários devem ser capazes de criar boards e adicionar diferentes colunas para gerenciar suas tasks",\n' +
+    '    "dueDate": "03/08/2023",\n' +
     '    "label": "backlog"\n' +
     '  },\n' +
     '  {\n' +
-    '    "titulo": "Aprender sobre Async/Await",\n' +
-    '    "descricao": "Estudar a sintaxe e a utilização do recurso Async/Await do JavaScript permitindo escrever código assíncrono de forma síncrona. Para auxiliar, sugere-se ler a documentação oficial disponível em: https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/Asynchronous/Async_await",\n' +
-    '    "story_points": 3,\n' +
-    '    "criterio_aceitacao": "Ser capaz de utilizar o Async/Await para simplificar a escrita de código assíncrono",\n' +
-    '    "due_date": new Date().toLocaleDateString(),\n' +
+    '    "title": "Integração com IA",\n' +
+    `    "description": "Realizar a integração do aplicativo web com a IA responsável pela geração das tasks. Será necessário utilizar APIs e bibliotecas específicas para enviar as solicitações e receber as respostas da IA. A documentação 'Integration with AI in GPTask' disponível em: https://gptaskdocs.com/integration-ai pode ser consultada para obter mais informações.",\n` +
+    '    "storyPoints": 13,\n' +
+    '    "acceptanceCriteria": "Aplicativo web deve ser capaz de se comunicar com a IA e receber as tasks geradas",\n' +
+    '    "dueDate": "03/08/2023",\n' +
     '    "label": "backlog"\n' +
     '  },\n' +
     '  {\n' +
-    '    "titulo": "Projeto Prático: Consumir uma API Assíncrona",\n' +
-    `    "descricao": "Criar um projeto prático onde será necessário utilizar técnicas assíncronas para consumir uma API. Pode-se utilizar a API 'JSONPlaceholder' para realizar as requisições assíncronas: https://jsonplaceholder.typicode.com/",\n` +
-    '    "story_points": 5,\n' +
-    '    "criterio_aceitacao": "Obter sucesso ao consumir e exibir os dados da API de forma assíncrona",\n' +
-    '    "due_date": new Date().toLocaleDateString(),\n' +
+    '    "title": "Implementação do Backlog",\n' +
+    `    "description": "Criar a funcionalidade de gerenciamento do backlog no aplicativo web, permitindo que os usuários visualizem, adicionem e removam tasks do backlog. A documentação 'Managing Backlog in GPTask' disponível em: https://gptaskdocs.com/managing-backlog pode ser consultada para entender os requisitos e detalhes necessários.",\n` +
+    '    "storyPoints": 5,\n' +
+    '    "acceptanceCriteria": "Usuários devem ser capazes de visualizar, adicionar e remover tasks do backlog",\n' +
+    '    "dueDate": "03/08/2023",\n' +
     '    "label": "backlog"\n' +
-    '  }\n' +
+    '  },\n' +
+    '  {\n' +
+    '    "title": "Implementação do Kanban",\n' +
+    `    "description": "Desenvolver a funcionalidade de visualização e movimentação das tasks através das colunas do Kanban, incluindo a atualização do status de cada task. A documentação 'Implementing Kanban in GPTask' disponível em: https://gptaskdocs.com/implementing-kanban pode ser consultada para mais informações sobre os requisitos e detalhes necessários.",\n` +
+    '    "storyPoints": 8,\n' +
+    '    "acceptanceCriteria": "Usuários devem ser capazes de visualizar e mover as tasks entre as colunas do Kanban, atualizando seu status",\n' +
+    '    "dueDate": "03/08/2023",\n' +
+    '    "label": "backlog"\n' +
+    '  },\n' +
     '];\n' +
     '\n' +
-    'console.log(JSON.stringify(cards, null, 2));\n' +
+    'console.log(cards);\n' +
     '```\n' +
     '\n' +
-    'Esse código irá gerar um array chamado "cards" com os cards detalhados para o projeto "JS ASSINCRONO". É importante lembrar de verificar as referências fornecidas nos campos "descricao" para uma melhor compreensão e orientação do Roger durante o desenvolvimento das tarefas.\n' +
-    '\n' +
-    'Cada card contém os campos solicitados: "titulo", "descricao", "story_points", "criterio_aceitacao", "due_date" e "label". O "due_date" é definido como a data de hoje.',
+    'Esse código gera um array de cards contendo todas as tarefas necessárias para o projeto GPTask. Os cards são definidos com base na descrição fornecida por Roger, incluindo títulos, descrições, story points, c',
 };

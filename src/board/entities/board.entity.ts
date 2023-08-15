@@ -20,14 +20,14 @@ export class Board {
   @Field(() => [Task])
   @Prop({ required: true })
   tasks!: Task[];
+
+  @Field()
+  @Prop({ required: true })
+  owner!: string;
 }
 
 @ObjectType()
 export class Task {
-  @Field()
-  @Prop({ required: true })
-  id!: string;
-
   @Field()
   @Prop({ required: true })
   title!: string;
@@ -51,10 +51,6 @@ export class Task {
   @Field()
   @Prop({ required: true })
   label!: string;
-
-  @Field()
-  @Prop({ required: true })
-  owner: string;
 }
 
 @InputType()
@@ -94,7 +90,7 @@ export class CreateTaskInput {
 }
 
 @InputType()
-export class GetBoardInput {
+export class OwnerBoardInput {
   @Field()
   owner!: string;
 }

@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { BoardService } from './board.service';
-import { Board, GetBoardInput } from './entities/board.entity';
+import { Board, OwnerBoardInput } from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 
 @Resolver(() => Board)
@@ -9,8 +9,8 @@ export class BoardResolver {
 
   @Query(() => [Board])
   async getAllBoardsFromUser(
-    @Args({ name: 'input', type: () => GetBoardInput })
-    data: GetBoardInput,
+    @Args({ name: 'input', type: () => OwnerBoardInput })
+    data: OwnerBoardInput,
   ): Promise<Board[]> {
     return this.boardService.findBoardsByEmail(data);
   }
@@ -20,6 +20,8 @@ export class BoardResolver {
     @Args({ name: 'input', type: () => BoardQuestionInput })
     data: BoardQuestionInput,
   ): Promise<Board> {
+    console.log(data);
+
     return this.boardService.createBoard(data);
   }
 }
