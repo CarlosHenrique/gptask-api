@@ -4,16 +4,100 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Schema()
-export class Board {}
+export class Board {
+  @Field()
+  @Prop({ required: true })
+  id!: string;
+
+  @Field()
+  @Prop({ required: true })
+  title!: string;
+
+  @Field()
+  @Prop({ required: true })
+  description!: string;
+
+  @Field(() => [Task])
+  @Prop({ required: true })
+  tasks!: Task[];
+}
 
 @ObjectType()
-export class Task {}
+export class Task {
+  @Field()
+  @Prop({ required: true })
+  id!: string;
+
+  @Field()
+  @Prop({ required: true })
+  title!: string;
+
+  @Field()
+  @Prop({ required: true })
+  description!: string;
+
+  @Field()
+  @Prop({ required: true })
+  storyPoints!: number;
+
+  @Field()
+  @Prop({ required: true })
+  acceptanceCriteria!: string;
+
+  @Field(() => Date)
+  @Prop({ required: true })
+  dueDate!: Date;
+
+  @Field()
+  @Prop({ required: true })
+  label!: string;
+
+  @Field()
+  @Prop({ required: true })
+  owner: string;
+}
 
 @InputType()
-export class CreateBoardInput {}
+export class CreateBoardInput {
+  @Field()
+  title!: string;
+
+  @Field()
+  description!: string;
+
+  @Field(() => [CreateTaskInput])
+  tasks!: CreateTaskInput[];
+
+  @Field()
+  owner!: string;
+}
 
 @InputType()
-export class CreateTaskInput {}
+export class CreateTaskInput {
+  @Field()
+  title!: string;
+
+  @Field()
+  description!: string;
+
+  @Field()
+  storyPoints!: number;
+
+  @Field()
+  acceptanceCriteria!: string;
+
+  @Field(() => Date)
+  dueDate!: Date;
+
+  @Field()
+  label!: string;
+}
+
+@InputType()
+export class GetBoardInput {
+  @Field()
+  owner!: string;
+}
 
 export type BoardDocument = HydratedDocument<Board>;
 export const BoardSchema = SchemaFactory.createForClass(Board);

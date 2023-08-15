@@ -3,10 +3,7 @@ import { OpenAiService } from './openai.service';
 import { OpenAiOptions } from './entities/openai.entity';
 
 @Global()
-@Module({
-  // providers: [OpenAiService],
-  // exports: [OpenAiService],
-})
+@Module({})
 export class OpenAiModule {
   public static register(options: OpenAiOptions): DynamicModule {
     return {

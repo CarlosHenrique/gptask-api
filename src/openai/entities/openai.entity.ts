@@ -1,16 +1,28 @@
+import { Field, InputType } from '@nestjs/graphql';
+
 export type OpenAiOptions = {
   apiKey: string;
 };
 
-export type BoardQuestion = {
-  projectName: string;
-  duration: string;
-  daysForWork: string[];
-  people: number;
-  description: string;
-};
+@InputType()
+export class BoardQuestionInput {
+  @Field()
+  projectName!: string;
 
-export const dummyCompletion = {
+  @Field()
+  duration!: string;
+
+  @Field()
+  daysForWork!: number;
+
+  @Field()
+  people!: number;
+
+  @Field()
+  description!: string;
+}
+
+export const mockCompletion = {
   role: 'assistant',
   content:
     'Claro! Segue abaixo o código que irá gerar um array com os cards para o projeto "JS ASSINCRONO":\n' +

@@ -27,14 +27,7 @@ export class UserService {
 
   public async createUser(data: CreateUserInput): Promise<User> {
     const createdUser = await this.userModel.create(data);
-    const answer = await this.openaiService.getBoardBasedOnQuestions({
-      projectName: 'JS ASSINCRONO',
-      duration: '2 meses',
-      daysForWork: ['Segunda', 'Terça', 'Quarta'],
-      people: 1,
-      description: 'O projeto será criado para aprender js assincrono',
-    });
-    console.log(answer);
+
     return createdUser.toObject<User>();
   }
 }
