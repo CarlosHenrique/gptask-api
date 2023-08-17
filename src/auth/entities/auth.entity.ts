@@ -4,6 +4,9 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 export class LoginResponse {
   @Field()
   access_token!: string;
+
+  @Field()
+  email!: string;
 }
 
 @InputType()
