@@ -99,7 +99,9 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       });
 
       const gptAnwser = completion.data.choices[0].message;
+      console.log(gptAnwser);
       const cardsArray = this.formatCompletion(gptAnwser);
+
       cardsArray.forEach((card) => (card.dueDate = new Date()));
 
       return cardsArray;
@@ -114,6 +116,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       const completion = await this.openAiApi.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: this.createPrompt(task) }],
+        temperature: 0,
       });
       const gptAnwser = completion.data.choices[0].message;
       const subtasksArray = this.formatCompletion(gptAnwser);

@@ -35,4 +35,10 @@ export class BoardService {
 
     return boards;
   }
+
+  async findBoardById(id: string): Promise<Board> {
+    const found = await this.boardModel.findById(id);
+
+    return found.toObject<Board>();
+  }
 }

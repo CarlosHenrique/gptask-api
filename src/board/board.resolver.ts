@@ -15,6 +15,14 @@ export class BoardResolver {
     return this.boardService.findBoardsByEmail(data);
   }
 
+  @Query(() => Board)
+  async getBoardById(
+    @Args({ name: 'input', type: () => String })
+    id: string,
+  ): Promise<Board> {
+    return this.boardService.findBoardById(id);
+  }
+
   @Mutation(() => Board)
   async createBoard(
     @Args({ name: 'input', type: () => BoardQuestionInput })
