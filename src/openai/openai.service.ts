@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common';
-import {
-  OpenAIApi,
-  Configuration,
-  CreateChatCompletionResponseChoicesInner,
-  ChatCompletionResponseMessage,
-} from 'openai';
+import { OpenAIApi, Configuration } from 'openai';
 import { BoardQuestionInput, OpenAiOptions } from './entities/openai.entity';
-import { mockCompletion } from './entities/openai.entity';
+
 import { CreateTaskInput } from 'src/board/entities/board.entity';
 
 @Injectable()
@@ -21,26 +16,27 @@ export class OpenAiService {
     return (this.openAiApi = new OpenAIApi(new Configuration(config)));
   }
 
-  formatCompletion(completion: any, subtasks = false): any {
-    const startIdx = subtasks
-      ? completion.content.indexOf('const subtasks = [')
-      : completion.content.indexOf('const cards = [');
-    const endIdx = completion.content.indexOf('];', startIdx);
-
-    if (startIdx === -1 || endIdx === -1) {
-      throw new Error('Array de cards não encontrado.');
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  formatCompletion(completion) {
+    const startIdx = completion.content.indexOf('[');
+    if (startIdx === -1) {
+      throw new Error('Array  não encontrado.');
     }
 
-    const cardsString = completion.content.substring(startIdx + 14, endIdx + 1);
+    const endIdx = completion.content.indexOf('];', startIdx);
+    if (endIdx === -1) {
+      throw new Error('Fim do array não encontrado.');
+    }
+
+    const cardsString = completion.content.substring(startIdx, endIdx + 2);
 
     let cardsArray;
-
     try {
-      console.log(cardsString);
       cardsArray = eval(cardsString);
     } catch (error) {
       throw new Error('Erro ao avaliar o código JavaScript.');
     }
+
     return cardsArray;
   }
 
@@ -50,8 +46,11 @@ export class OpenAiService {
     if (text instanceof CreateTaskInput) {
       return;
     }
-    const prompt = `Você é um product owner de uma renomada empresa, sabendo isso, Roger, que está tentando criar um projeto baseado na metodologia SCRUM, solicita sua ajuda na divisão e definição de tarefas do projeto que ele está iniciando. O projeto se chamará ${text.projectName} e irá durar ${text.duration} iniciando a partir de hoje sendo o limite de tempo, Roger irá se dedicar ao projeto nos dias  ${text.daysForWork},${text.people} pessoas irá/irão participar do projeto. Quando você solicitou uma descrição breve sobre o projeto de Roger, ele respondeu: ${text.description}, com base nisso você pode detalhar tudo que será necessário para que roger conclua seu objetivo em cards que possam ser utilizados na metodologia descrita e todos deverão ser iniciados no backlog? A saida deverá ser em formato json contendo os seguintes campos:  title, descrição, story points(baseados na sequencia de Fibonacci), criterio de aceitação(baseado na descrição do card), data de vencimento (pegar o duração definida acima e usar a data de hoje), label (as labels disponiveis são [in-progress, backlog, done, selected-for-development]), as descrições devem conter referências a documentação ou links de videos para que roger possa compreender melhor o assunto e ter um norte para o seu desenvolvimento,por um exemplo um card pode ser parecido com isso:
+    const prompt = `
+    Como Product Owner de uma empresa renomada, sua experiência é fundamental para ajudar Roger a estruturar seu projeto baseado na metodologia SCRUM. Roger está iniciando o projeto "${text.projectName}" com duração prevista de ${text.duration} a partir de hoje. Ele se dedicará nos dias ${text.daysForWork}, enquanto ${text.people} pessoas participarão do projeto.
 
+Com base na breve descrição de Roger sobre o projeto: "${text.description}", você pode detalhar as tarefas necessárias para que Roger alcance seus objetivos. Essas tarefas serão transformadas em cards que serão utilizados na metodologia SCRUM, sendo todos eles iniciados no backlog.
+Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
     {
       "title": "Aprender sobre Callbacks",
       "description": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",
@@ -69,7 +68,7 @@ export class OpenAiService {
       "label": "backlog"
     }
     
-    me retorne um bloco de código com um array que contém os cards gerados, lembre-se que estou usando javascript, segue um exemplo de reposta: 
+    A resposta que você irá retornar será em um bloco de código com um array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de reposta esperada use ele: 
     const cards = [
       {
         "title": "Aprender sobre Promises",
@@ -86,7 +85,7 @@ export class OpenAiService {
         "acceptanceCriteria": "Entender como utilizar callbacks para realizar operações assíncronas",
         "dueDate": "03/08/2023",
         "label": "backlog"
-      },]
+      }]
     `;
 
     return prompt;
@@ -98,12 +97,13 @@ export class OpenAiService {
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: this.createPrompt(question) }],
       });
+
       const gptAnwser = completion.data.choices[0].message;
       const cardsArray = this.formatCompletion(gptAnwser);
+      cardsArray.forEach((card) => (card.dueDate = new Date()));
 
       return cardsArray;
     } catch (error) {
-      //   console.error(error);
       throw new Error(error);
     }
   }
@@ -116,7 +116,7 @@ export class OpenAiService {
         messages: [{ role: 'user', content: this.createPrompt(task) }],
       });
       const gptAnwser = completion.data.choices[0].message;
-      const subtasksArray = this.formatCompletion(gptAnwser, true);
+      const subtasksArray = this.formatCompletion(gptAnwser);
 
       return subtasksArray;
     } catch (error) {
