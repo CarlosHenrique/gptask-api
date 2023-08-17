@@ -18,21 +18,9 @@ export class OpenAiService {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   formatCompletion(completion) {
-    const startIdx = completion.content.indexOf('[');
-    if (startIdx === -1) {
-      throw new Error('Array  não encontrado.');
-    }
-
-    const endIdx = completion.content.indexOf('];', startIdx);
-    if (endIdx === -1) {
-      throw new Error('Fim do array não encontrado.');
-    }
-
-    const cardsString = completion.content.substring(startIdx, endIdx + 2);
-
     let cardsArray;
     try {
-      cardsArray = eval(cardsString);
+      cardsArray = eval(completion.content);
     } catch (error) {
       throw new Error('Erro ao avaliar o código JavaScript.');
     }
@@ -68,8 +56,8 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       "label": "backlog"
     }
     
-    A resposta que você irá retornar será em um bloco de código com um array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o cards = [tasks]: 
-    const cards = [
+    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o [cards]: 
+    [
       {
         "title": "Aprender sobre Promises",
         "description": "Estudar o conceito de Promises no JavaScript. Pode-se utilizar o artigo 'Understanding Promises in JavaScript' como referência: https://scotch.io/tutorials/javascript-promises-for-dummies",
