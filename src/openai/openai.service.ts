@@ -68,7 +68,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       "label": "backlog"
     }
     
-    A resposta que você irá retornar será em um bloco de código com um array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de reposta esperada use ele: 
+    A resposta que você irá retornar será em um bloco de código com um array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o cards = [tasks]: 
     const cards = [
       {
         "title": "Aprender sobre Promises",
@@ -116,7 +116,6 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       const completion = await this.openAiApi.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: [{ role: 'user', content: this.createPrompt(task) }],
-        temperature: 0,
       });
       const gptAnwser = completion.data.choices[0].message;
       const subtasksArray = this.formatCompletion(gptAnwser);

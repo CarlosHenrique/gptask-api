@@ -25,9 +25,6 @@ export class AuthService {
   }
 
   async login(user: LoginUserInput): Promise<any> {
-    if (!this.validateUser(user.email, user.password)) {
-      throw new Error('Email ou senha inválidos!');
-    }
     return {
       access_token: this.jwtService.sign({
         email: user.email,
