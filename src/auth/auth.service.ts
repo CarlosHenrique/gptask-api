@@ -14,7 +14,6 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.userService.findOneByEmail(email);
-    console.log(user);
     const valid = await bcrypt.compare(password, user?.password);
 
     if (user && valid) {
@@ -26,6 +25,9 @@ export class AuthService {
   }
 
   async login(user: LoginUserInput): Promise<any> {
+    if (!this.validateUser(user.email, user.password)) {
+      throw new Error('Email ou senha inválidos!');
+    }
     return {
       access_token: this.jwtService.sign({
         email: user.email,
