@@ -28,8 +28,6 @@ export class BoardResolver {
     @Args({ name: 'input', type: () => BoardQuestionInput })
     data: BoardQuestionInput,
   ): Promise<Board> {
-    console.log(data);
-
     return this.boardService.createBoard(data);
   }
 }

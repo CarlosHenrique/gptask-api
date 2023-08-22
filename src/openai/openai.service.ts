@@ -87,7 +87,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       });
 
       const gptAnwser = completion.data.choices[0].message;
-      console.log(gptAnwser);
+
       const cardsArray = this.formatCompletion(gptAnwser);
 
       cardsArray.forEach((card) => (card.dueDate = new Date()));
