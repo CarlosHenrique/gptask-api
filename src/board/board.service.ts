@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { OpenAiService } from 'src/openai/openai.service';
-import { Board, BoardDocument, OwnerBoardInput } from './entities/board.entity';
+import {
+  Board,
+  BoardDocument,
+  OwnerBoardInput,
+  UpdateTaskLabelInput,
+} from './entities/board.entity';
 import { Model } from 'mongoose';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 import { InjectModel } from '@nestjs/mongoose';
@@ -32,7 +37,7 @@ export class BoardService {
   async findBoardsByEmail(data: OwnerBoardInput): Promise<Board[]> {
     const found = await this.boardModel.find(data);
     const boards = found.map((board) => board.toObject<Board>());
-
+    console.log(boards);
     return boards;
   }
 
@@ -40,5 +45,23 @@ export class BoardService {
     const found = await this.boardModel.findById(id);
 
     return found.toObject<Board>();
+  }
+
+  // criar uma mutation para trocar o status da task baseado na ID
+  async updateLabelBasedOnTaskId(data: UpdateTaskLabelInput): Promise<Board> {
+    await this.boardModel.updateOne(
+      {
+        id: data.boardId,
+        'tasks.id': data.taskId,
+      },
+      {
+        $set: { 'tasks.$.label': data.label },
+      },
+      { new: true },
+    );
+
+    return await (
+      await this.boardModel.findById({ id: data.boardId })
+    ).toObject<Board>();
   }
 }

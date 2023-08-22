@@ -100,5 +100,17 @@ export class OwnerBoardInput {
   owner!: string;
 }
 
+@InputType()
+export class UpdateTaskLabelInput {
+  @Field()
+  boardId!: string;
+
+  @Field()
+  taskId!: string;
+
+  @Field()
+  label!: string;
+}
+
 export type BoardDocument = HydratedDocument<Board>;
 export const BoardSchema = SchemaFactory.createForClass(Board);

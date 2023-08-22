@@ -27,6 +27,6 @@ export class AuthResolver {
     @Args({ name: 'input', type: () => CreateUserInput })
     createUserInput: CreateUserInput,
   ) {
-    return this.authService.signUp(createUserInput)
+    return this.authService.signUp(createUserInput);
   }
 }

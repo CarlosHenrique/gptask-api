@@ -1,7 +1,11 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { BoardService } from './board.service';
 import { UseGuards } from '@nestjs/common/decorators';
-import { Board, OwnerBoardInput } from './entities/board.entity';
+import {
+  Board,
+  OwnerBoardInput,
+  UpdateTaskLabelInput,
+} from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
 
@@ -32,5 +36,13 @@ export class BoardResolver {
     data: BoardQuestionInput,
   ): Promise<Board> {
     return this.boardService.createBoard(data);
+  }
+
+  @Mutation(() => Board)
+  async updateLabelBasedOnTaskId(
+    @Args({ name: 'input', type: () => UpdateTaskLabelInput })
+    data: UpdateTaskLabelInput,
+  ): Promise<Board> {
+    return this.boardService.updateLabelBasedOnTaskId(data);
   }
 }
