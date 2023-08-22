@@ -29,6 +29,9 @@ export class Board {
 @ObjectType()
 export class Task {
   @Field()
+  id!: string;
+
+  @Field()
   @Prop({ required: true })
   title!: string;
 
@@ -70,6 +73,8 @@ export class CreateBoardInput {
 
 @InputType()
 export class CreateTaskInput {
+  @Field()
+  id!: string;
   @Field()
   title!: string;
 

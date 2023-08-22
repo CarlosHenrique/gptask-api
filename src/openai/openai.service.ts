@@ -40,6 +40,7 @@ export class OpenAiService {
 Com base na breve descrição de Roger sobre o projeto: "${text.description}", você pode detalhar as tarefas necessárias para que Roger alcance seus objetivos, lembre-se de detalhar o máximo possivel as tarefas. Essas tarefas serão transformadas em cards que serão utilizados na metodologia SCRUM, sendo todos eles iniciados no backlog.
 Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
     {
+      "id": <Aqui você irá criar um acronimo de acordo com o titulo do board. exemplo: IN-1>
       "title": "Aprender sobre Callbacks",
       "description": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",
       "storyPoints": 1,
@@ -48,6 +49,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       "label": "backlog"
     },
     {
+      "id": <Aqui você irá criar um acronimo de acordo com o titulo do board. exemplo: IN-1>
       "title": "Aprender sobre Async/Await",
       "description": "Estudar a sintaxe e a utilização do recurso Async/Await do JavaScript permitindo escrever código assíncrono de forma síncrona. Para auxiliar, sugere-se ler a documentação oficial disponível em: https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript/Asynchronous/Async_await",
       "storyPoints": 3,
@@ -59,6 +61,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
     A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o [cards gerados]: 
     [
       {
+        "id":  JS-1
         "title": "Aprender sobre Promises",
         "description": "Estudar o conceito de Promises no JavaScript. Pode-se utilizar o artigo 'Understanding Promises in JavaScript' como referência: https://scotch.io/tutorials/javascript-promises-for-dummies",
         "storyPoints": 2,
@@ -67,6 +70,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
         "label": "backlog"
       },
       {
+        "id":  JS-2
         "title": "Aprender sobre Callbacks",
         "description": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",
         "storyPoints": 1,
