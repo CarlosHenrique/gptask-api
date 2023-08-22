@@ -37,7 +37,7 @@ export class OpenAiService {
     const prompt = `
     Como Product Owner de uma empresa renomada, sua experiência é fundamental para ajudar Roger a estruturar seu projeto baseado na metodologia SCRUM. Roger está iniciando o projeto "${text.projectName}" com duração prevista de ${text.duration} a partir de hoje. Ele se dedicará nos dias ${text.daysForWork}, enquanto ${text.people} pessoas participarão do projeto.
 
-Com base na breve descrição de Roger sobre o projeto: "${text.description}", você pode detalhar as tarefas necessárias para que Roger alcance seus objetivos. Essas tarefas serão transformadas em cards que serão utilizados na metodologia SCRUM, sendo todos eles iniciados no backlog.
+Com base na breve descrição de Roger sobre o projeto: "${text.description}", você pode detalhar as tarefas necessárias para que Roger alcance seus objetivos, lembre-se de detalhar o máximo possivel as tarefas. Essas tarefas serão transformadas em cards que serão utilizados na metodologia SCRUM, sendo todos eles iniciados no backlog.
 Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
     {
       "title": "Aprender sobre Callbacks",
@@ -56,7 +56,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       "label": "backlog"
     }
     
-    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o [cards]: 
+    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o [cards gerados]: 
     [
       {
         "title": "Aprender sobre Promises",
@@ -87,7 +87,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       });
 
       const gptAnwser = completion.data.choices[0].message;
-
+      console.log(gptAnwser);
       const cardsArray = this.formatCompletion(gptAnwser);
 
       cardsArray.forEach((card) => (card.dueDate = new Date()));
