@@ -1,8 +1,11 @@
 import { Args, Mutation, Resolver, Query } from '@nestjs/graphql';
 import { BoardService } from './board.service';
+import { UseGuards } from '@nestjs/common/decorators';
 import { Board, OwnerBoardInput } from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
+import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Resolver(() => Board)
 export class BoardResolver {
   constructor(private readonly boardService: BoardService) {}
