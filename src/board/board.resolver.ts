@@ -9,7 +9,7 @@ import {
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
 
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 @Resolver(() => Board)
 export class BoardResolver {
   constructor(private readonly boardService: BoardService) {}
