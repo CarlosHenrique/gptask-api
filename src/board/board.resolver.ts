@@ -4,7 +4,7 @@ import { UseGuards } from '@nestjs/common/decorators';
 import {
   Board,
   OwnerBoardInput,
-  UpdateTaskLabelInput,
+  UpdateTaskOnBoardInput,
 } from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
@@ -39,10 +39,10 @@ export class BoardResolver {
   }
 
   @Mutation(() => Board)
-  async updateLabelBasedOnTaskId(
-    @Args({ name: 'input', type: () => UpdateTaskLabelInput })
-    data: UpdateTaskLabelInput,
+  async updateTaskFieldsBasedOnBoardId(
+    @Args({ name: 'input', type: () => UpdateTaskOnBoardInput })
+    data: UpdateTaskOnBoardInput,
   ): Promise<Board> {
-    return this.boardService.updateLabelBasedOnTaskId(data);
+    return this.boardService.updateTaskFieldsBasedOnBoardId(data);
   }
 }

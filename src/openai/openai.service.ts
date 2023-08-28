@@ -20,7 +20,8 @@ export class OpenAiService {
   formatCompletion(completion) {
     let cardsArray;
     try {
-      cardsArray = eval(completion.content);
+      cardsArray = JSON.parse(completion);
+      console.log(cardsArray);
     } catch (error) {
       throw new Error('Erro ao avaliar o código JavaScript.');
     }

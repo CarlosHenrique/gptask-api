@@ -4,7 +4,7 @@ import {
   Board,
   BoardDocument,
   OwnerBoardInput,
-  UpdateTaskLabelInput,
+  UpdateTaskOnBoardInput,
 } from './entities/board.entity';
 import { Model } from 'mongoose';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
@@ -48,20 +48,24 @@ export class BoardService {
   }
 
   // criar uma mutation para trocar o status da task baseado na ID
-  async updateLabelBasedOnTaskId(data: UpdateTaskLabelInput): Promise<Board> {
+  async updateTaskFieldsBasedOnBoardId(
+    data: UpdateTaskOnBoardInput,
+  ): Promise<Board> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let value: any = data.value;
+    if (data.field === 'dueDate') value = new Date(value);
+    if (data.field === 'storyPoints') value = parseInt(value);
     await this.boardModel.updateOne(
       {
         id: data.boardId,
         'tasks.id': data.taskId,
       },
       {
-        $set: { 'tasks.$.label': data.label },
+        $set: { [`tasks.$.${data.field}`]: value },
       },
       { new: true },
     );
-
-    return await (
-      await this.boardModel.findById({ id: data.boardId })
-    ).toObject<Board>();
+    const updatedBoard = await this.boardModel.findOne({ id: data.boardId });
+    return updatedBoard.toObject<Board>();
   }
 }

@@ -1,6 +1,15 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  Float,
+  InputType,
+  InterfaceType,
+  ObjectType,
+  Scalar,
+  createUnionType,
+} from '@nestjs/graphql';
+import { GraphQLScalarType } from 'graphql';
 
 @ObjectType()
 @Schema()
@@ -101,7 +110,7 @@ export class OwnerBoardInput {
 }
 
 @InputType()
-export class UpdateTaskLabelInput {
+export class UpdateTaskOnBoardInput {
   @Field()
   boardId!: string;
 
@@ -109,8 +118,60 @@ export class UpdateTaskLabelInput {
   taskId!: string;
 
   @Field()
-  label!: string;
+  value!: string;
+
+  @Field()
+  field!: string;
 }
+
+@InputType()
+export class DeleteBoardInput {
+  @Field()
+  boardId!: string;
+
+  @Field()
+  userId!: string;
+}
+
+@InputType()
+export class DeleteTaskOnBoardInput {
+  @Field()
+  boardId!: string;
+
+  @Field()
+  taskId!: string;
+
+  @Field()
+  userId!: string;
+}
+
+@ObjectType()
+export class DeleteBoardSuccess {
+  @Field()
+  _?: string;
+}
+
+@ObjectType()
+export class DeleteBoardError {
+  @Field()
+  message!: string;
+}
+
+@ObjectType()
+export class DeleteTaskOnBoardSuccess extends DeleteBoardSuccess {}
+
+@ObjectType()
+export class DeleteTaskOnBoardError extends DeleteBoardError {}
+
+export const DeleteBoardResult = createUnionType({
+  name: 'DeleteBoardResult',
+  types: () => [DeleteBoardSuccess, DeleteBoardError],
+});
+
+export const DeleteTaskOnBoardResult = createUnionType({
+  name: 'DeleteTaskOnBoardResult',
+  types: () => [DeleteTaskOnBoardSuccess, DeleteTaskOnBoardError],
+});
 
 export type BoardDocument = HydratedDocument<Board>;
 export const BoardSchema = SchemaFactory.createForClass(Board);
