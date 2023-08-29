@@ -14,12 +14,4 @@ export class UserResolver {
   async getUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
   }
-
-  @Mutation(() => User)
-  async createUser(
-    @Args({ name: 'input', type: () => CreateUserInput })
-    data: CreateUserInput,
-  ): Promise<User> {
-    return this.userService.createUser(data);
-  }
 }

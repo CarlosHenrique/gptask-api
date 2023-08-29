@@ -47,7 +47,6 @@ export class BoardService {
     return found.toObject<Board>();
   }
 
-  // criar uma mutation para trocar o status da task baseado na ID
   async updateTaskFieldsBasedOnBoardId(
     data: UpdateTaskOnBoardInput,
   ): Promise<Board> {
@@ -67,5 +66,35 @@ export class BoardService {
     );
     const updatedBoard = await this.boardModel.findOne({ id: data.boardId });
     return updatedBoard.toObject<Board>();
+  }
+
+  async deleteBoardBasedOnId(boardId: string, userUid: string): Promise<void> {
+    return await this.boardModel.findOneAndDelete({
+      id: boardId,
+      owner: userUid,
+    });
+  }
+
+  async deleteTaskBasedOnBoardId(
+    boardId: string,
+    taskId: string,
+    userUid: string,
+  ): Promise<void> {
+    try {
+      const board = await this.boardModel.findOne({
+        id: boardId,
+        owner: userUid,
+      });
+
+      if (!board) {
+        throw new Error('Board não encontrado');
+      }
+
+      board.tasks = board.tasks.filter((task) => task.id.toString() !== taskId);
+      await board.save();
+      return;
+    } catch (error) {
+      throw new Error(`Erro ao deletar a task: ${error.message}`);
+    }
   }
 }

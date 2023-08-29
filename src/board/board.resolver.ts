@@ -3,13 +3,21 @@ import { BoardService } from './board.service';
 import { UseGuards } from '@nestjs/common/decorators';
 import {
   Board,
+  DeleteBoardError,
+  DeleteBoardInput,
+  DeleteBoardResult,
+  DeleteBoardSuccess,
+  DeleteTaskOnBoardError,
+  DeleteTaskOnBoardInput,
+  DeleteTaskOnBoardResult,
+  DeleteTaskOnBoardSuccess,
   OwnerBoardInput,
   UpdateTaskOnBoardInput,
 } from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
 
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Resolver(() => Board)
 export class BoardResolver {
   constructor(private readonly boardService: BoardService) {}
@@ -44,5 +52,37 @@ export class BoardResolver {
     data: UpdateTaskOnBoardInput,
   ): Promise<Board> {
     return this.boardService.updateTaskFieldsBasedOnBoardId(data);
+  }
+
+  @Mutation(() => DeleteBoardResult)
+  async deleteBoardBasedOnId(
+    @Args({ name: 'input', type: () => DeleteBoardInput })
+    data: DeleteBoardInput,
+  ): Promise<typeof DeleteBoardResult> {
+    try {
+      await this.boardService.deleteBoardBasedOnId(data.boardId, data.userId);
+      return Object.assign(new DeleteBoardSuccess(), {});
+    } catch (error) {
+      const message = error;
+      return Object.assign(new DeleteBoardError(), { message });
+    }
+  }
+
+  @Mutation(() => DeleteTaskOnBoardResult)
+  async deleteTaskBasedOnBoardId(
+    @Args({ name: 'input', type: () => DeleteTaskOnBoardInput })
+    data: DeleteTaskOnBoardInput,
+  ): Promise<typeof DeleteTaskOnBoardResult> {
+    try {
+      await this.boardService.deleteTaskBasedOnBoardId(
+        data.boardId,
+        data.taskId,
+        data.userId,
+      );
+      return Object.assign(new DeleteTaskOnBoardSuccess(), {});
+    } catch (error) {
+      const message = error;
+      return Object.assign(new DeleteTaskOnBoardError(), { message });
+    }
   }
 }

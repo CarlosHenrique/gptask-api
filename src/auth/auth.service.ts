@@ -43,6 +43,7 @@ export class AuthService {
     const userExists = await this.userService.findOneByEmail(user.email);
     if (userExists) throw new Error('User already exists!');
     const password = await bcrypt.hash(user.password, 10);
+
     return this.userService.createUser({ ...user, password });
   }
 }
