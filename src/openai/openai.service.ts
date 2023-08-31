@@ -178,7 +178,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
         ],
       });
       const gptAnwser = completion.data.choices[0].message;
-      console.log(gptAnwser);
+
       const subtasksArray = this.formatCompletion(gptAnwser);
       subtasksArray.forEach((subtask) => (subtask.dueDate = new Date()));
       return subtasksArray;

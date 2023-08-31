@@ -56,9 +56,9 @@ export class Task {
   @Prop({ required: true })
   acceptanceCriteria!: string;
 
-  @Field(() => Date)
+  @Field()
   @Prop({ required: true })
-  dueDate!: Date;
+  dueDate!: string;
 
   @Field()
   @Prop({ required: true })
@@ -88,6 +88,7 @@ export class CreateBoardInput {
 export class CreateTaskInput {
   @Field()
   id!: string;
+
   @Field()
   title!: string;
 
@@ -100,8 +101,8 @@ export class CreateTaskInput {
   @Field()
   acceptanceCriteria!: string;
 
-  @Field(() => Date)
-  dueDate!: Date;
+  @Field()
+  dueDate!: string;
 
   @Field()
   label!: string;
@@ -171,6 +172,9 @@ export class SplitTaskInput {
 
   @Field()
   taskId!: string;
+
+  @Field()
+  userId!: string;
 }
 
 @ObjectType()

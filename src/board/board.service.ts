@@ -43,7 +43,7 @@ export class BoardService {
   }
 
   async findBoardById(id: string): Promise<Board> {
-    const found = await this.boardModel.findById(id);
+    const found = await this.boardModel.findOne({ id });
 
     return found.toObject<Board>();
   }
@@ -102,6 +102,7 @@ export class BoardService {
   async splitTaskOnBoard(data: SplitTaskInput): Promise<Board> {
     const board = await this.boardModel.findOne({
       id: data.boardId,
+      owner: data.userId,
     });
     const numberOfTasks = board.tasks.length;
     const taskToBeSplitted = board.tasks.filter(

@@ -90,7 +90,7 @@ export class BoardResolver {
   @Mutation(() => Board)
   async splitTaskBasedOnBoardId(
     @Args({ name: 'input', type: () => SplitTaskInput })
-    data: UpdateTaskOnBoardInput,
+    data: SplitTaskInput,
   ): Promise<Board> {
     return this.boardService.splitTaskOnBoard(data);
   }
