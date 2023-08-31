@@ -63,6 +63,10 @@ export class Task {
   @Field()
   @Prop({ required: true })
   label!: string;
+
+  @Field({ nullable: true })
+  @Prop()
+  childTask?: string;
 }
 
 @InputType()
@@ -101,6 +105,9 @@ export class CreateTaskInput {
 
   @Field()
   label!: string;
+
+  @Field({ nullable: true })
+  parentTask?: string;
 }
 
 @InputType()
@@ -155,6 +162,15 @@ export class DeleteBoardSuccess {
 export class DeleteBoardError {
   @Field()
   message!: string;
+}
+
+@InputType()
+export class SplitTaskInput {
+  @Field()
+  boardId!: string;
+
+  @Field()
+  taskId!: string;
 }
 
 @ObjectType()

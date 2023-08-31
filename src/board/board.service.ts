@@ -4,6 +4,7 @@ import {
   Board,
   BoardDocument,
   OwnerBoardInput,
+  SplitTaskInput,
   UpdateTaskOnBoardInput,
 } from './entities/board.entity';
 import { Model } from 'mongoose';
@@ -96,5 +97,22 @@ export class BoardService {
     } catch (error) {
       throw new Error(`Erro ao deletar a task: ${error.message}`);
     }
+  }
+
+  async splitTaskOnBoard(data: SplitTaskInput): Promise<Board> {
+    const board = await this.boardModel.findOne({
+      id: data.boardId,
+    });
+    const numberOfTasks = board.tasks.length;
+    const taskToBeSplitted = board.tasks.filter(
+      (task) => task.id === data.taskId,
+    );
+    const subtasks = await this.openAiService.getSubTasksBasedOnTask(
+      taskToBeSplitted,
+      numberOfTasks,
+    );
+    board.tasks.push(...subtasks);
+
+    return await board.save();
   }
 }

@@ -12,6 +12,7 @@ import {
   DeleteTaskOnBoardResult,
   DeleteTaskOnBoardSuccess,
   OwnerBoardInput,
+  SplitTaskInput,
   UpdateTaskOnBoardInput,
 } from './entities/board.entity';
 import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
@@ -84,5 +85,13 @@ export class BoardResolver {
       const message = error;
       return Object.assign(new DeleteTaskOnBoardError(), { message });
     }
+  }
+
+  @Mutation(() => Board)
+  async splitTaskBasedOnBoardId(
+    @Args({ name: 'input', type: () => SplitTaskInput })
+    data: UpdateTaskOnBoardInput,
+  ): Promise<Board> {
+    return this.boardService.splitTaskOnBoard(data);
   }
 }
