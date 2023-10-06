@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Args, Resolver, Mutation } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginResponse, LoginUserInput } from './entities/auth.entity';
 import { User, CreateUserInput } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
+import { JwtAuthGuard } from './gql.auth.guard';
 @Resolver()
 export class AuthResolver {
   constructor(
@@ -25,11 +27,6 @@ export class AuthResolver {
     @Args({ name: 'input', type: () => CreateUserInput })
     createUserInput: CreateUserInput,
   ) {
-    const userExists = await this.userService.findOneByEmail(
-      createUserInput.email,
-    );
-    if (userExists) throw new Error('User already exists!');
-    const password = await bcrypt.hash(createUserInput.password, 10);
-    return this.userService.createUser({ ...createUserInput, password });
+    return this.authService.signUp(createUserInput);
   }
 }

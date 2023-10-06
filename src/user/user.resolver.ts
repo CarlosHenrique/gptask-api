@@ -3,6 +3,7 @@ import { User, CreateUserInput } from './entities/user.entity';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from 'src/auth/gql.auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { BoardQuestionInput } from 'src/openai/entities/openai.entity';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -12,13 +13,5 @@ export class UserResolver {
   @UseGuards(JwtAuthGuard)
   async getUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
-  }
-
-  @Mutation(() => User)
-  @UseGuards(JwtAuthGuard)
-  async createUser(
-    @Args({ name: 'input', type: () => CreateUserInput }) data: CreateUserInput,
-  ): Promise<User> {
-    return this.userService.createUser(data);
   }
 }

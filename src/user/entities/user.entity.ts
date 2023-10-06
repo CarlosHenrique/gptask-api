@@ -11,12 +11,19 @@ export class User {
 
   @Prop({ required: true })
   password!: string;
+
+  @Field()
+  @Prop({ required: true })
+  preferredName!: string;
 }
 
 @InputType()
 export class CreateUserInput {
   @Field()
   email!: string;
+
+  @Field()
+  preferredName!: string;
 
   @Field()
   password!: string;
