@@ -66,7 +66,7 @@ export class Task {
 
   @Field({ nullable: true })
   @Prop()
-  childTask?: string;
+  parentTask?: string;
 }
 
 @InputType()

@@ -38,7 +38,7 @@ export class BoardService {
   async findBoardsByEmail(data: OwnerBoardInput): Promise<Board[]> {
     const found = await this.boardModel.find(data);
     const boards = found.map((board) => board.toObject<Board>());
-    console.log(boards);
+
     return boards;
   }
 

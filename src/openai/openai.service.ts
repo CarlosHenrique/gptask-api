@@ -17,14 +17,14 @@ export class OpenAiService {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  formatCompletion(completion) {
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  formatCompletion(content) {
     let cardsArray;
     try {
-      cardsArray = JSON.parse(completion.content);
+      cardsArray = JSON.parse(content);
     } catch (error) {
       throw new Error('Erro ao avaliar o código JavaScript.');
     }
-
     return cardsArray;
   }
 
@@ -71,13 +71,12 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks, o nume
       "dueDate": "03/08/2023",
       "label": "backlog",
       "parentTask":  ${text.id}
-
     }
     
-    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa resposta poderia ser, lembre-se de adicionar o parentTask de cada task, siga ela estritamente retornando apenas o [cards gerados]: 
+    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa resposta poderia ser, lembre-se de adicionar o parentTask de cada task, siga ela estritamente retornando apenas o []: 
     [
       {
-        "id":  JS-2,
+        "id":  "JS-2",
         "title": "Aprender sobre Promises",
         "description": "Estudar o conceito de Promises no JavaScript. Pode-se utilizar o artigo 'Understanding Promises in JavaScript' como referência: https://scotch.io/tutorials/javascript-promises-for-dummies",
         "storyPoints": 2,
@@ -87,7 +86,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks, o nume
         "parentTask": "JS-1"
       },
       {
-        "id":  JS-3,
+        "id":  "JS-3",
         "title": "Aprender sobre Callbacks",
         "description": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",
         "storyPoints": 1,
@@ -124,10 +123,10 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       "label": "backlog"
     }
     
-    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o [cards gerados]: 
+    A resposta que você irá retornar será em um bloco de  array que contém os cards gerados, lembre-se que array retornado deve estar na linguagem javascript, abaixo segue um exemplo de como essa reposta poderia, siga ela estrictamente retornando apenas o []: 
     [
       {
-        "id":  JS-1
+        "id":  "JS-1"
         "title": "Aprender sobre Promises",
         "description": "Estudar o conceito de Promises no JavaScript. Pode-se utilizar o artigo 'Understanding Promises in JavaScript' como referência: https://scotch.io/tutorials/javascript-promises-for-dummies",
         "storyPoints": 2,
@@ -136,7 +135,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
         "label": "backlog"
       },
       {
-        "id":  JS-2
+        "id":  "JS-2"
         "title": "Aprender sobre Callbacks",
         "description": "Estudar callbacks, uma técnica fundamental para trabalhar com funções assíncronas em JavaScript. Recomenda-se o vídeo 'JavaScript Callbacks Explained!' disponível em: https://www.youtube.com/watch?v=QRq2zMHlBz4",
         "storyPoints": 1,
@@ -157,9 +156,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
       });
 
       const gptAnwser = completion.data.choices[0].message;
-
-      const cardsArray = this.formatCompletion(gptAnwser);
-
+      const cardsArray = this.formatCompletion(gptAnwser.content);
       cardsArray.forEach((card) => (card.dueDate = new Date()));
 
       return cardsArray;
@@ -178,8 +175,7 @@ Roger, gostaria de receber uma estrutura de saída similar a essas tasks:
         ],
       });
       const gptAnwser = completion.data.choices[0].message;
-
-      const subtasksArray = this.formatCompletion(gptAnwser);
+      const subtasksArray = this.formatCompletion(gptAnwser.content);
       subtasksArray.forEach((subtask) => (subtask.dueDate = new Date()));
       return subtasksArray;
     } catch (error) {
